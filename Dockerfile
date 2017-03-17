@@ -33,8 +33,7 @@ RUN mkdir -p /tmp/pipelinedb \
     && apt-get update \
     && wget -O /tmp/pipelinedb/debian.deb "https://www.pipelinedb.com/download/${PIPELINEDB_VERSION}/debian8" \
     && dpkg --force-overwrite --install /tmp/pipelinedb/debian.deb \
-    && rm -r /tmp/pipelinedb \
-    && apt-get purge -y --auto-remove ca-certificates wget
+    && rm -r /tmp/pipelinedb 
 
 RUN mkdir -p /tmp/avro-c \
     && cd /tmp/avro-c \
