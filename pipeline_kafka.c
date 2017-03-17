@@ -973,6 +973,10 @@ consume_topic_into_relation(KafkaConsumer *consumer, KafkaConsumerProc *proc, rd
 				}
 				else if (message->len)
 				{
+
+				    // we need to deserialize here using libserdes https://github.com/confluentinc/libserdes
+
+
 					appendBinaryStringInfo(buf, message->payload, message->len);
 
 					/* COPY expects a newline after each tuple, so add one if missing. */
@@ -1749,7 +1753,7 @@ kafka_consume_begin(PG_FUNCTION_ARGS)
 	if (pg_strcasecmp(TextDatumGetCString(format), FORMAT_JSON) == 0)
 	{
 		pfree(format);
-		format = (text *) CStringGetTextDatum(FORMAT_CSV);
+		format = (text *) CStringGetTextDatum(FORMAT_JSON);
 		delimiter = (text *)  CStringGetTextDatum(FORMAT_JSON_DELIMITER);
 		quote = (text *) CStringGetTextDatum(FORMAT_JSON_QUOTE);
 	}
@@ -2269,7 +2273,7 @@ kafka_consume_begin_stream_partitioned(PG_FUNCTION_ARGS)
 	if (pg_strcasecmp(TextDatumGetCString(format), FORMAT_JSON) == 0)
 	{
 		pfree(format);
-		format = (text *) CStringGetTextDatum(FORMAT_CSV);
+		format = (text *) CStringGetTextDatum(FORMAT_JSON);
 		delimiter = (text *)  CStringGetTextDatum(FORMAT_JSON_DELIMITER);
 		quote = (text *) CStringGetTextDatum(FORMAT_JSON_QUOTE);
 	}
